@@ -17,12 +17,12 @@ var keys = require('ssb-keys')
     .loadOrCreateSync(require('path').join(config.path, 'secret'))
 
 var server = ssbServer({
-  port: 45451, timeout: 2001,
-  temp: 'connect',
-  host: 'localhost',
-  master: keys.id,
-  keys: keys,
-  appKey: shsCap
+    port: 45451, timeout: 2001,
+    temp: 'connect',
+    host: 'localhost',
+    master: keys.id,
+    keys: keys,
+    appKey: shsCap
 })
 
 function finish(client) {
