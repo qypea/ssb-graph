@@ -12,7 +12,11 @@ var ssbClient = require('ssb-client')
 
 var shsCap = 'XMHDXXFGBJvloCk8fOinzPkKMRqyA2/eH+3VyUr6lig='
 
-var keys = ssbKeys.generate()
+var appName = process.env.appName
+var config = require('ssb-config/inject')(appName)
+var keys = require('ssb-keys')
+    .loadOrCreateSync(require('path').join(config.path, 'secret'))
+
 var server = ssbServer({
   port: 45451, timeout: 2001,
   temp: 'connect',
