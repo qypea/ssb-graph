@@ -1,0 +1,24 @@
+{
+  "name": "ssb-graph",
+  "version": "0.0.1",
+  "description": "Graph your connections in scuttlebutt",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qypea/ssb-graph.git"
+  },
+  "dependencies": {
+    "scuttlebot": "^7.3.4",
+    "ssb-client": "^4.5.7",
+    "ssb-config": "^2.2.0",
+    "ssb-keys": "^7.0.13",
+    "tape": "^4.2.0"
+  },
+  "devDependencies": {},
+  "author": "David Winn <q@qypea.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/qypea/ssb-graph/issues"
+  },
+  "homepage": "https://github.com/qypea/ssb-graph"
+}
