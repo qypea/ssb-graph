@@ -3,7 +3,6 @@
 // http://unix.stackexchange.com/questions/65235/universal-node-js-shebang
 // vi: ft=javascript
 
-var tape = require('tape')
 var ssbKeys = require('ssb-keys')
 var ssbServer = require('scuttlebot')
   .use(require('scuttlebot/plugins/master'))
@@ -26,21 +25,19 @@ var server = ssbServer({
   appKey: shsCap
 })
 
-tape('connect', function (t) {
+function finish(client) {
+    client.close(true)
+    server.close(true)
+    process.exit(0)
+}
 
-  ssbClient(keys, { port: 45451, manifest: server.manifest(), caps: { shs: shsCap }}, function (err, client) {
+ssbClient(keys, { port: 45451, manifest: server.manifest(), caps: { shs: shsCap }}, function (err, client) {
     if (err) throw err
 
     client.whoami(function (err, info) {
-      if (err) throw err
+        if (err) throw err
 
-      console.log('whoami', info)
-      t.equal(info.id, keys.id)
-      t.end()
-      client.close(true)
-      server.close(true)
-      process.exit(0)
+        console.log('whoami', info)
+        finish(client)
     })
-  })
-
 })
