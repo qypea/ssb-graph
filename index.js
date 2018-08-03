@@ -5,8 +5,10 @@
 
 var pull = require('pull-stream');
 var createSbot = require('scuttlebot')
+    .use(require('scuttlebot/plugins/master'))
+    .use(require('scuttlebot/plugins/gossip'))
     .use(require('scuttlebot/plugins/replicate'))
-    .use(require('scuttlebot/plugins/friends'));
+    .use(require('ssb-friends'));
 
 var config = require('ssb-config/inject')();
 var keys = require('ssb-keys')
@@ -20,11 +22,10 @@ var sbot = createSbot({
     keys: keys,
 });
 
-pull(sbot.friends.createFriendStream(),
-    pull.collect(function (err, info) {
-        if (err) throw err;
-
-        console.log(info);
-        sbot.close(true);
-        process.exit(0);
-    }));
+pull(sbot.friends.stream(),
+    pull.drain(function (info) {
+            console.log("pull", info);
+        }, function() {
+            sbot.close(true);
+            process.exit(0);
+        }));
