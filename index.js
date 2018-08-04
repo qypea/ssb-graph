@@ -22,10 +22,28 @@ var sbot = createSbot({
     keys: keys,
 });
 
+// Graph is a map of startId -> endId -> value where value signifies:
+// null: no relationship, false: blocked, true: follows
+var graph = {};
+
+function graphPruneNulls() {
+    for (start in graph) {
+        var row = graph[start];
+        for (end in row) {
+            if (row[end] === null) {
+                delete row[end];
+            }
+        }
+    }
+}
+
 pull(sbot.friends.stream(),
-    pull.drain(function (info) {
-            console.log("pull", info);
-        }, function() {
-            sbot.close(true);
-            process.exit(0);
-        }));
+    pull.drain(function (info) { graph = info; }, function() {
+        // Work
+        graphPruneNulls();
+        console.log(graph);
+
+        // Close out session, exit
+        sbot.close(true);
+        process.exit(0);
+    }));
